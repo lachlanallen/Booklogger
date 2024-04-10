@@ -16,12 +16,36 @@ const AppProvider = ({children}) => {
             const response = await fetch(`${URL}${searchTerm}`);
             const data = await response.json();
             const {docs} = data;
-        }
-        catch (error) {
+            console.log(docs);
+            
+            if(docs) {
+                const newBooks = docs.slice(0,20).map((bookSingle) => {
+                    const {key, author_name, cover_i, first_publish_year, title} = bookSingle;
+
+                    return {
+                        id: key,
+                        author: author_name ? author_name[0] : "No Author",
+                        cover: cover_i,
+                        year: first_publish_year,
+                        title: title
+                    }
+                });
+
+                setBooks(newBooks);
+                if(newBooks.length > 0) {
+                    setResultTitle("Search Results");
+                } else {
+                    setResultTitle("Sorry, no books found. Please search again.");
+                }
+            } else {
+                setBooks([]);
+                setResultTitle("Sorry, no books found. Please search again.");
+            }
+            setLoading(false);
+        } catch (error) {
             console.log(error);
             setLoading(false);
-        }
-    }, [searchTerm]);
+        }}, [searchTerm]);
 
     useEffect(() => {
         fetchBooks();
