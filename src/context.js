@@ -16,7 +16,6 @@ const AppProvider = ({children}) => {
             const response = await fetch(`${URL}${searchTerm}`);
             const data = await response.json();
             const {docs} = data;
-            console.log(docs);
             
             if(docs) {
                 const newBooks = docs.slice(0,20).map((bookSingle) => {
