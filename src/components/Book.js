@@ -4,6 +4,7 @@ import "./css/BookList.css";
 
 const Book = (book) => {
   return (
+    <Link to = {`/books/${book.id}`}{... book}> 
     <div className="book-item">
       <div className="book-cover">
         <img src={book.cover_img} alt={book.title}/>
@@ -23,6 +24,8 @@ const Book = (book) => {
         </div>
       </div>
     </div>
+    </Link>
+    
   );
 }
 
