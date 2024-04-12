@@ -17,18 +17,21 @@ const BookDetail = () => {
     setLoading(true);
     async function getBookDetails() {
       try {
+        console.log(`Fetching book details for ID: ${id}`);
+        console.log(`Constructed URL: ${URL}${id}.json`);
+
         const response = await fetch(`${URL}${id}.json`);
         const data = await response.json();
         
         if(data){
-          const {description, title, covers, subject_places, subject_times, subjects} = data;
+          const {description, title, covers, author, first_publish_date, subjects} = data;
           const newBook = {
             description: description ? description.value : "No description available",
             title: title ? title : "No title available",
             cover_img: covers ? `https://covers.openlibrary.org/b/id/${covers[0]}-L.jpg` : defaultCover,
-            subject_places: subject_places ? subject_places.join(", ") : "No subject places available",
-            subject_times: subject_times ? subject_times.join(", ") : "No subject times available",
-            subjects: subjects ? subjects.join(", ") : "No subjects available"
+            subjects: subjects ? subjects.slice(0, 2).join(", ") : "No subjects available",
+            publish: first_publish_date ? first_publish_date : "No publish date available",
+            author: author ? author : "No author available"
           };
           setBook(newBook);
         } else {
@@ -57,9 +60,9 @@ const BookDetail = () => {
       <NavBar />
       <section className="book-detail">
         <div className="book-detail-container">
-          <button type='button' className="back-btn" onClick={() => navigate("/books")}>
+          <button type='button' className="back-btn" onClick={() => navigate("/Search")}>
             <i className="fas fa-arrow-left"/> 
-            <span>Back to list</span>
+            <span>Back</span>
           </button>
           <div className="book-details-content">
             <div className="book-details-cover">
@@ -69,11 +72,15 @@ const BookDetail = () => {
               <div className="book-details-title">
                 <span>{book?.title}</span>
               </div>
+              <div className="book-details-author">
+                <span>By </span>
+                <span>{book?.author}</span>
+              </div>
               <div className="book-details-description">
                 <span>{book?.description}</span>
               </div>
               <div className="book-details-subjects">
-                <span>Subjects:</span>
+                <span>Genres: </span>
                 <span>{book?.subjects}</span>
               </div>
             </div>

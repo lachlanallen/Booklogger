@@ -17,6 +17,8 @@ root.render(
         <Route path="/search" element={<Search />} />
         <Route path="/books" element={<BookList />} />
         <Route path="/books/:bookId" element={<BookDetail />} />
+        <Route path="/books/:id" element={<BookDetail />} />
+        <Route path="/books/works/:id" element={<BookDetail />} />
       </Routes>
     </BrowserRouter>
   </AppProvider>

@@ -1,5 +1,5 @@
 import React, {useRef, useEffect} from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../context";
 import "./css/SearchHeader.css";
 
@@ -20,7 +20,6 @@ const SearchHeader = () => {
     setSearchTerm(searchValue.current.value);
   }
 
-  navigate('/books');
 };
 
   return (
@@ -36,6 +35,7 @@ const SearchHeader = () => {
           </form>
         </div>
       </div>
+      <Outlet />
     </div>
   );
 }

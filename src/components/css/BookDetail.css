@@ -51,6 +51,7 @@
   
   .book-details-title,
   .book-details-description,
-  .book-details-subjects {
+  .book-details-subjects,
+  .book-details-author {
     margin-bottom: 20px;
   }
