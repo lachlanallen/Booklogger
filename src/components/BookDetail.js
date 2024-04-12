@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {useParams, useNavigate} from "react-router-dom";
 import Loading from "./Loader";
+import NavBar from "./NavBar";
 import './css/BookDetail.css';
 import defaultCover from "../assets/defaultCover.png";
 
@@ -36,8 +37,9 @@ const BookDetail = () => {
         setLoading(false);
       } catch (error) {
         console.error("Error fetching book", error);
-        setLoading(false);
+        setBook(null);
       }
+      setLoading(false);
     }
     getBookDetails();
   }, [id]);
@@ -46,32 +48,40 @@ const BookDetail = () => {
     return <Loading />;
   }
 
+  if (!book) {
+    return <div>No book details available</div>;
+  }
+
   return (
-    <section className="book-detail">
-      <div className="book-detail-container">
-        <button type='button' className="back-btn" onClick={() => navigate("/book")}>
-          <i className="fas fa-arrow-left"/> 
-          <span>Back to list</span>
-        </button>
-        <div className="book-details-content">
-          <div className="book-details-cover">
-            <img src={book?.cover_img} alt={book.title} />
-          </div>
-          <div className="book-details-info">
-            <div className="book-details-title">
-              <span>{book?.title}</span>
+    <div>
+      <NavBar />
+      <section className="book-detail">
+        <div className="book-detail-container">
+          <button type='button' className="back-btn" onClick={() => navigate("/books")}>
+            <i className="fas fa-arrow-left"/> 
+            <span>Back to list</span>
+          </button>
+          <div className="book-details-content">
+            <div className="book-details-cover">
+              <img src={book?.cover_img} alt={book.title} />
             </div>
-            <div className="book-details-description">
-              <span>{book?.description}</span>
-            </div>
-            <div className="book-details-subjects">
-              <span>Subjects:</span>
-              <span>{book?.subjects}</span>
+            <div className="book-details-info">
+              <div className="book-details-title">
+                <span>{book?.title}</span>
+              </div>
+              <div className="book-details-description">
+                <span>{book?.description}</span>
+              </div>
+              <div className="book-details-subjects">
+                <span>Subjects:</span>
+                <span>{book?.subjects}</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
+    
   );
 }
 
