@@ -6,10 +6,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-family: "Frank Ruhl Libre", serif;
+    font-weight: 600;
 }
 .navbar-link {
     text-decoration: none;
     color: #483D43;
+}
+
+.navbar-link:hover {
+    color: #7A7C64;
 }
 
 .navbar-logo {
@@ -17,6 +23,6 @@
 }
 
 .logo-text {
-    font-size: 14pt;
+    font-size: 16pt;
     margin-left: 0.5rem;  
 }

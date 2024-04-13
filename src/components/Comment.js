@@ -1,8 +1,21 @@
-import React, { useState } from 'react';
-import './css/Comment.css';
+import React, { useState } from "react";
+import "./css/Comment.css";
 
 const Comment = () => {
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState([
+    {
+      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      rating: 4,
+    },
+    {
+      text: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      rating: 5,
+    },
+    {
+      text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      rating: 3,
+    },
+  ]);
   const [rating, setRating] = useState(0);
 
   const handleCommentSubmit = (event) => {
@@ -15,9 +28,32 @@ const Comment = () => {
 
   return (
     <div>
-      <h2 className="comment-title">Comments</h2>
-      <form onSubmit={handleCommentSubmit} className="comment-form">
-        <p className='comment-header'>Write a comment</p>
+      <div className="comment-header">
+        <h2 className="comment-title">Comments</h2>
+        <span>•</span>
+        <a href="#comment-form">Write a Comment</a>
+      </div>
+      {comments.map((comment, index) => (
+        <div key={index} className="posted-comment">
+          <p className="posted-comment-user">Trusted User</p>
+          <p>{comment.text}</p>
+          <div className="posted-comment-rating">
+            <p>Rating: </p>
+            {[...Array(comment.rating)].map((star, i) => (
+              <i key={i} className="fas fa-star"></i>
+            ))}
+            {[...Array(5 - comment.rating)].map((star, i) => (
+              <i key={i} className="far fa-star"></i>
+            ))}
+          </div>
+        </div>
+      ))}
+      <form
+        onSubmit={handleCommentSubmit}
+        className="comment-form"
+        id="comment-form"
+      >
+        <p className="comment-form-title">Write a Comment</p>
         <div className="rating">
           <p>Overall Rating:</p>
           {[...Array(5)].map((star, i) => {
@@ -30,7 +66,11 @@ const Comment = () => {
                   value={ratingValue}
                   onClick={() => setRating(ratingValue)}
                 />
-                <i className={ratingValue <= rating ? "fas fa-star" : "far fa-star"}></i>
+                <i
+                  className={
+                    ratingValue <= rating ? "fas fa-star" : "far fa-star"
+                  }
+                ></i>
               </label>
             );
           })}
@@ -41,14 +81,6 @@ const Comment = () => {
         </label>
         <button type="submit">Post Comment</button>
       </form>
-      <div>
-        {comments.map((comment, index) => (
-          <div key={index}>
-            <p>{comment.text}</p>
-            <p>Rating: {comment.rating} stars</p>
-          </div>
-        ))}
-      </div>
     </div>
   );
 };

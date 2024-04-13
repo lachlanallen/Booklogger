@@ -1,11 +1,29 @@
 .comment-title{
     font-size: 16pt;
     margin-left: 5rem;
-    margin-top: 2rem;
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 600;
 }
 
 .comment-header {
     font-size: 14pt;
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.comment-header a {
+    color: #7A7C64;
+    font-size: 12pt;
+}
+
+.comment-form-title {
+    font-size: 14pt;
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 600;
+
 }
 
 .comment-form {
@@ -13,13 +31,18 @@
     flex-direction: column;
     margin-left: 5rem;
     padding: 2rem;
-    width: 35%;
+    width: 40%;
     background-color: #F6F3EE;
     border-radius: 20px;
+    border: solid 1px #CEC88A;
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 600;
 }
 
 .comment-form label {
     font-size: 1.2em;
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 600;
 }
 
 .comment-form input[type="text"] {
@@ -30,6 +53,12 @@
     border-radius: 5px;
     font-size: 10pt;
     margin-bottom: 10px;
+    font-family: 'Libre Franklin', sans-serif;
+    word-wrap:break-word;
+}
+
+.comment-form textarea {
+    word-wrap:break-word;
 }
 
 .comment-form button {
@@ -43,6 +72,8 @@
     cursor: pointer;
     font-size: 1em;
     align-self: center;
+    font-family: 'Frank Ruhl Libre', serif;
+    
 }
 
 .comment-form input[type="radio"] {
@@ -58,4 +89,36 @@
 .comment-form label i:hover ~ i,
 .comment-form input[type="radio"]:checked ~ i {
     color: #F0A04B;
+}
+
+.posted-comment {
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 10pt;
+    margin-left: 5rem;
+    padding: 2rem;
+
+    border: 1px solid #CEC88A;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    background-color: #F6F3EE;
+    color: #7A7C64;
+    width: 40%;
+}
+
+.posted-comment p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.posted-comment-user {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 14pt;
+    font-weight: 600;
+}
+
+.posted-comment-rating {
+    font-size: 1.2em;
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 600;
+    margin-top: 10px;
 }

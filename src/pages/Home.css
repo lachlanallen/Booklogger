@@ -21,11 +21,13 @@
 
   .reccomendations h2 {
     padding-left: 3.6rem;
+    font-family: 'Frank Ruhl Libre', serif;
+    color: #40392F;
   }
 
   .book-carousel {
     margin: 0 2rem;
-    background-color: #CEC88A;
+    background: linear-gradient(white 40%, #7A7C64 40%);
   }
 
   .book-carousel .carousel .slide {
@@ -43,4 +45,16 @@
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
+    padding: 15px;
+    width: 350px;
+    font-family: "Libre Franklin", sans-serif;
+    font-size: 12pt;
+    background-color: #CEC88A;
+    border-radius: 20px;
+  }
+
+  .book-title {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 16pt;
+    font-weight: 600;
   }

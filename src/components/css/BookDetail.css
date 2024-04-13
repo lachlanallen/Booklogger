@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300..900&family=Libre+Franklin:ital,wght@0,100..900;1,100..900&display=swap');
+
 .book-detail {
     display: flex;
     flex-direction: column;
@@ -29,6 +31,7 @@
   
   .back-btn p {
     margin-left: 10px;
+    font-family: 'Libre Franklin', sans-serif;
   }
   
   .book-details-content {
@@ -55,6 +58,12 @@
   .book-details-subjects,
   .book-details-author {
     margin-bottom: 20px;
+  }
+  
+  .book-details-description,
+  .book-details-subjects,
+  .book-details-author {
+    font: Libre Franklin, sans-serif;
   }
 
   .book-details-title {
