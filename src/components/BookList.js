@@ -21,30 +21,18 @@ const BookList = () => {
         if (book.covers && book.covers.length > 0) {
           const url = `https://covers.openlibrary.org/b/id/${book.covers[0]}-L.jpg`;
           try {
-            const cover_img = await fetchImage(url);
-            cover_img = url;
-          } catch (e) {
+            const response = await fetch(url);
+            if (response.ok) {
+              cover_img = url;
+            }
+          } catch (error) {
             console.error(`Failed to load image: ${url}`);
           }
         }
-        return {
-          ...book,
-          id: book.id,
-          cover_img
-        };
+        return { ...book, cover_img };
       }));
       setBooksWithCovers(newBooksWithCovers);
     };
-
-    const fetchImage = (url) => {
-      const img = new Image();
-      return new Promise((res, rej) => {
-        img.onload = () => res(img);
-        img.onerror = e => rej(e);
-        img.src = url;
-      });
-    };
-
     fetchImages();
   }, [books]);
 

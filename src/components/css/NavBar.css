@@ -15,3 +15,8 @@
 .navbar-logo {
     width: 45px;
 }
+
+.logo-text {
+    font-size: 14pt;
+    margin-left: 0.5rem;  
+}
