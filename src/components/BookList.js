@@ -2,7 +2,6 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useGlobalContext } from "../context";
 import Book from "./Book";
-import { Link } from "react-router-dom";
 import Loading from "./Loader";
 import defaultCover from "../assets/defaultCover.png";
 import "./css/BookList.css";
@@ -10,7 +9,7 @@ import "./css/BookList.css";
 //https://covers.openlibrary.org/b/id/240727-S.jpg
 
 const BookList = () => {
-  const { books, loading, resultTitle } = useGlobalContext();
+  const { books, loading } = useGlobalContext();
   const [booksWithCovers, setBooksWithCovers] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const totalPages = Math.ceil(booksWithCovers.length / 8);

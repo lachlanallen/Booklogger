@@ -1,5 +1,5 @@
 import React, {useRef, useEffect} from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useGlobalContext } from "../context";
 import "./css/SearchHeader.css";
 
@@ -7,7 +7,6 @@ import "./css/SearchHeader.css";
 const SearchHeader = () => {
   const {setSearchTerm, setResultTitle} = useGlobalContext();
   const searchValue = useRef('');
-  const navigate = useNavigate();
 
   useEffect(() => searchValue.current.focus(), []);
   const handleSubmit = (event) => {
