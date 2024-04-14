@@ -12,7 +12,11 @@
     gap: 2rem;
     text-align: center;
     margin-left: 2rem;
-    text-decoration: none;
+    text-decoration: none !important;
+}
+
+.books a {
+    text-decoration: none !important;
 }
 
 .book-item {
@@ -23,14 +27,16 @@
     background-color: #CEC88A;
     border-radius: 10px;
     max-width: 250px;
+    text-decoration: none !important;
+    color: #40392F;
 }
 
 .book-item .book-info a {
     text-decoration: none !important;
-    color: inherit !important;
+    color: #40392F;
 }
 
-.book-cover {
+.book-cover img {
     max-width: 180px;
 }
 
@@ -38,17 +44,19 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    text-decoration: none;
 }
 
 .book-title {
     font-size: 14pt;
     font-weight: bold;
     font-family: 'Frank Ruhl Libre', serif;
+    text-decoration: none;
 }
 
 .book-author, .book-publish {
     font: Libre Franklin, sans-serif;
-    
+    text-decoration: none;
 }
 
 .pagination {

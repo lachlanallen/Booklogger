@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./css/BookList.css";
 
-const Book = ({ id, cover_img, title, author, year }) => {
+const Book = ({ id, cover_img, title, author, year, subject }) => {
   console.log(cover_img);
   return (
     <div>
@@ -19,6 +19,9 @@ const Book = ({ id, cover_img, title, author, year }) => {
             <div className="book-author">
                 <span>By </span>
                 <span>{author}</span>
+            </div>
+            <div className="book-subject">
+                <span>{subject}</span>
             </div>
             <div className="book-publish">
                 <span>{year}</span>
