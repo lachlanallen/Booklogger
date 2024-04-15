@@ -3,11 +3,7 @@ import './css/Loader.css';
 
 const Loader = () => {
   return (
-    <div className="loader">
-      <div className="loader-content">
-        <p>Loading...</p>
-      </div>
-    </div>
+    <div className="loader"></div>
   );
 }
 
