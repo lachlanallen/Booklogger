@@ -5,7 +5,7 @@ const URL = "https://openlibrary.org/search.json?title=";
 const AppContext = React.createContext();
 
 const AppProvider = ({children}) => {
-    const [searchTerm, setSearchTerm] = useState("Harry Potter");
+    const [searchTerm, setSearchTerm] = useState("The Hobbit");
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [resultitle, setResultTitle] = useState("");
@@ -16,17 +16,19 @@ const AppProvider = ({children}) => {
             const response = await fetch(`${URL}${searchTerm}`);
             const data = await response.json();
             const {docs} = data;
+            console.log(data);
             
             if(docs) {
                 const newBooks = docs.slice(0,20).map((bookSingle) => {
-                    const {key, author_name, cover_i, first_publish_year, title} = bookSingle;
+                    const {key, author_name, cover_i, first_publish_year, title, subject} = bookSingle;
 
                     return {
                         id: key,
-                        author: author_name ? author_name[0] : "No Author",
-                        cover: cover_i,
+                        author: author_name ? author_name : "No Author",
+                        cover_img: cover_i,
                         year: first_publish_year,
-                        title: title
+                        title: title,
+                        subject: subject ? subject[0] : "No Subject"
                     }
                 });
 
@@ -51,7 +53,7 @@ const AppProvider = ({children}) => {
     }, [searchTerm, fetchBooks]);
 
     return (
-        <AppContext.Provider value={{searchTerm, setSearchTerm, books, loading, resultitle}}>
+        <AppContext.Provider value={{searchTerm, setSearchTerm, books, loading, resultitle, setResultTitle}}>
             {children}
         </AppContext.Provider>
     );

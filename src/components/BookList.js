@@ -19,13 +19,16 @@ const BookList = () => {
     const fetchImages = async () => {
       const newBooksWithCovers = await Promise.all(
         books.map(async (book) => {
-          let cover_img = defaultCover;
+          let cover_img = `https://covers.openlibrary.org/b/id/${book.cover_img}-L.jpg`;
           if (book.covers && book.covers.length > 0) {
-            const url = `https://covers.openlibrary.org/b/id/${book.covers[0]}-L.jpg`;
+            const url = `https://covers.openlibrary.org/b/id/${book.cover_img}-L.jpg`;
             try {
               const response = await fetch(url);
               if (response.ok) {
                 cover_img = url;
+              }
+              else {
+                cover_img = defaultCover;
               }
             } catch (error) {
               console.error(`Failed to load image: ${url}`);
@@ -55,7 +58,10 @@ const BookList = () => {
           {booksWithCovers
             .slice(currentPage * 8, (currentPage + 1) * 8)
             .map((book, index) => (
-              <Book key={index} {...book} />
+              <div className="books">
+                <Book key={index} {...book} />
+              </div>
+
             ))}
         </div>
       </div>
