@@ -6,8 +6,7 @@ import "./css/SearchHeader.css";
 
 
 const SearchHeader = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [resultTitle, setResultTitle] = useState("");
+  const {setSearchTerm, setResultTitle} = useGlobalContext();
   const searchValue = useRef('');
 
   useEffect(() => searchValue.current.focus(), []);
@@ -24,14 +23,14 @@ const SearchHeader = () => {
   };
 
 
-  return (
+    return (
     <div className="search-header">
       <div>
         <div className="search-content">
           <h1 className="search-title">Start Searching for a Book.</h1>
           <form className="search-form" onSubmit={handleSubmit}>
             <input type="text" placeholder="Search for a book ..." ref={searchValue}/>
-            <button type="submit" onClick={handleSubmit}>
+            <button type="submit">
               <i className="fa-solid fa-magnifying-glass submit-icon"></i>
             </button>
           </form>
