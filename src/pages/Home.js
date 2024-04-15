@@ -1,15 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../components/NavBar";
 import { Outlet } from "react-router-dom";
-import { Carousel } from 'react-responsive-carousel';
+import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import banner1 from '../assets/banner1.png';
-import banner2 from '../assets/banner2.png';
-import banner3 from '../assets/banner3.png';
+import banner1 from "../assets/banner1.png";
+import banner2 from "../assets/banner2.png";
+import banner3 from "../assets/banner3.png";
 import defaultCover from "../assets/defaultCover.png";
-import './Home.css';
+import "./Home.css";
 
 const Home = () => {
+  const [recommendedBooks, setRecommendedBooks] = useState([]);
+
+  const fetchBooksBySubject = async (subject) => {
+    try {
+      const response = await fetch(
+        `https://openlibrary.org/subjects/${subject}.json`
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      const { works } = data;
+
+      if (works) {
+        const newBooks = works.slice(0, 6).map((bookSingle) => {
+          const { cover_id, first_publish_year, title, authors } = bookSingle;
+
+          return {
+            id: cover_id,
+            author: authors ? authors[0].name : "No Author",
+            cover_img: cover_id,
+            year: first_publish_year,
+            title: title,
+            subject: subject,
+          };
+        });
+        setRecommendedBooks(newBooks);
+      }
+    } catch (error) {
+      console.error("Fetch error: ", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBooksBySubject("fantasy");
+  }, []);
+
   return (
     <main>
       <Navbar />
@@ -32,54 +69,29 @@ const Home = () => {
           <h2>Recommended Books</h2>
         </div>
         <div className="book-carousel">
-          <Carousel showThumbs={false} showIndicators={false} centerMode centerSlidePercentage={33}>
-            <div className="book">
-              <img src={defaultCover} alt="Book 1" />
-              <span className="book-title">Book Title</span>
-              <span>By Author</span>
-              <span>Genre</span>
-              <span>Publish Year</span>
-            </div>
-            <div className="book">
-              <img src={defaultCover} alt="Book 2" />
-              <span className="book-title">Book Title</span>
-              <span>By Author</span>
-              <span>Genre</span>
-              <span>Publish Year</span>
-            </div>
-            <div className="book">
-              <img src={defaultCover} alt="Book 3" />
-              <span className="book-title">Book Title</span>
-              <span>By Author</span>
-              <span>Genre</span>
-              <span>Publish Year</span>
-            </div>
-            <div className="book">
-              <img src={defaultCover} alt="Book 4" />
-              <span className="book-title">Book Title</span>
-              <span>By Author</span>
-              <span>Genre</span>
-              <span>Publish Year</span>
-            </div>
-            <div className="book">
-              <img src={defaultCover} alt="Book 5" />
-              <span className="book-title">Book Title</span>
-              <span>By Author</span>
-              <span>Genre</span>
-              <span>Publish Year</span>
-            </div>
-            <div className="book">
-              <img src={defaultCover} alt="Book 6" />
-              <span className="book-title">Book Title</span>
-              <span>By Author</span>
-              <span>Genre</span>
-              <span>Publish Year</span>
-            </div>
+          <Carousel
+            showThumbs={false}
+            showIndicators={false}
+            centerMode
+            centerSlidePercentage={33}
+          >
+            {recommendedBooks.map((book) => (
+              <div className="book" key={book.id}>
+                <img
+                  src={`http://covers.openlibrary.org/b/id/${book.cover_img}-L.jpg`}
+                  alt={book.title}
+                />
+                <span className="book-title">{book.title}</span>
+                <span>By {book.author}</span>
+                <span>{book.subject}</span>
+                <span>{book.year}</span>
+              </div>
+            ))}
           </Carousel>
         </div>
       </div>
     </main>
   );
-}
+};
 
 export default Home;
