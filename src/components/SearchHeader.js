@@ -1,25 +1,28 @@
-import React, {useRef, useEffect} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import { Outlet } from "react-router-dom";
 import { useGlobalContext } from "../context";
+import BookList from './BookList';
 import "./css/SearchHeader.css";
 
 
 const SearchHeader = () => {
-  const {setSearchTerm, setResultTitle} = useGlobalContext();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [resultTitle, setResultTitle] = useState("");
   const searchValue = useRef('');
 
   useEffect(() => searchValue.current.focus(), []);
-  const handleSubmit = (event) => {
-   event.preventDefault(); 
-   let tempSearchValue = searchValue.current.value.trim();
-   if((tempSearchValue.replace(/[^\w\s]/gi, "")).length === 0) {
-    setSearchTerm("Harry Potter");
-    setResultTitle("Please enter a valid search term.");
-  }else{
-    setSearchTerm(searchValue.current.value);
-  }
 
-};
+  const handleSubmit = (event) => {
+    event.preventDefault(); 
+    let tempSearchValue = searchValue.current.value.trim();
+    if((tempSearchValue.replace(/[^\w\s]/gi, "")).length === 0) {
+      setSearchTerm("The Hobbit");
+      setResultTitle("Please enter a valid search term.");
+    } else {
+      setSearchTerm(searchValue.current.value);
+    }
+  };
+
 
   return (
     <div className="search-header">

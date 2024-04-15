@@ -5,7 +5,7 @@ const URL = "https://openlibrary.org/search.json?title=";
 const AppContext = React.createContext();
 
 const AppProvider = ({children}) => {
-    const [searchTerm, setSearchTerm] = useState("Harry Potter");
+    const [searchTerm, setSearchTerm] = useState("The Hobbit");
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [resultitle, setResultTitle] = useState("");
@@ -24,7 +24,7 @@ const AppProvider = ({children}) => {
 
                     return {
                         id: key,
-                        author: author_name ? author_name[0] : "No Author",
+                        author: author_name ? author_name : "No Author",
                         cover_img: cover_i,
                         year: first_publish_year,
                         title: title,
@@ -53,7 +53,7 @@ const AppProvider = ({children}) => {
     }, [searchTerm, fetchBooks]);
 
     return (
-        <AppContext.Provider value={{searchTerm, setSearchTerm, books, loading, resultitle}}>
+        <AppContext.Provider value={{searchTerm, setSearchTerm, books, loading, resultitle, setResultTitle}}>
             {children}
         </AppContext.Provider>
     );

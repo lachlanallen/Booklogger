@@ -27,6 +27,9 @@ const BookList = () => {
               if (response.ok) {
                 cover_img = url;
               }
+              else {
+                cover_img = defaultCover;
+              }
             } catch (error) {
               console.error(`Failed to load image: ${url}`);
             }

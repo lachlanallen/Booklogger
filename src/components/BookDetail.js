@@ -1,15 +1,15 @@
-import React, {useState, useEffect} from "react";
-import {useParams, useNavigate} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import Loading from "./Loader";
 import NavBar from "./NavBar";
 import Comment from "./Comment";
-import './css/BookDetail.css';
+import "./css/BookDetail.css";
 import defaultCover from "../assets/defaultCover.png";
 
 const URL = "https://openlibrary.org/works/";
 
 const BookDetail = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [book, setBook] = useState(null);
   const navigate = useNavigate();
@@ -23,15 +23,31 @@ const BookDetail = () => {
 
         const response = await fetch(`${URL}${id}.json`);
         const data = await response.json();
-        
-        if(data){
-          const {description, title, covers, author, subjects} = data;
+
+        if (data) {
+          const { description, title, covers, authors, subjects } = data;
+          let authorNames = "No author available";
+
+          if (authors && authors.length > 0) {
+            const authorPromises = authors.map((author) =>
+              fetch(`https://openlibrary.org${author.author.key}.json`).then(
+                (res) => res.json()
+              )
+            );
+            const authorData = await Promise.all(authorPromises);
+            authorNames = authorData.map((author) => author.name).join(", ");
+          }
+
           const newBook = {
-            description: description ? description.value : "No description available",
+            description: description ? description : "No description available",
             title: title ? title : "No title available",
-            cover_img: covers ? `https://covers.openlibrary.org/b/id/${covers[0]}-L.jpg` : defaultCover,
-            subjects: subjects ? subjects.slice(0, 2).join(", ") : "No subjects available",
-            author: author ? author : "No author available"
+            cover_img: covers
+              ? `https://covers.openlibrary.org/b/id/${covers[0]}-L.jpg`
+              : defaultCover,
+            subjects: subjects
+              ? subjects.slice(0, 2).join(", ")
+              : "No subjects available",
+            author: authorNames,
           };
           setBook(newBook);
         } else {
@@ -47,7 +63,7 @@ const BookDetail = () => {
     getBookDetails();
   }, [id]);
 
-  if(loading) {
+  if (loading) {
     return <Loading />;
   }
 
@@ -60,8 +76,12 @@ const BookDetail = () => {
       <NavBar />
       <section className="book-detail">
         <div className="book-detail-container">
-          <button type='button' className="back-btn" onClick={() => navigate("/Search")}>
-            <i className="fas fa-arrow-left"/> 
+          <button
+            type="button"
+            className="back-btn"
+            onClick={() => navigate("/Search")}
+          >
+            <i className="fas fa-arrow-left" />
             <p>Back</p>
           </button>
           <div className="book-details-content">
@@ -74,14 +94,21 @@ const BookDetail = () => {
               </div>
               <div className="book-details-author">
                 <span>By </span>
-                <span>{book?.author}</span>
+                <span>
+                  {Array.isArray(book?.author)
+                    ? book.author.join(", ")
+                    : book?.author}
+                </span>
               </div>
               <div className="book-details-subjects">
-                <span>Genres: </span>
                 <span>{book?.subjects}</span>
               </div>
               <div className="book-details-description">
-                <span>{book?.description}</span>
+                <span>
+                  {typeof book?.description === "object"
+                    ? book?.description.value
+                    : book?.description}
+                </span>
               </div>
             </div>
           </div>
@@ -89,8 +116,7 @@ const BookDetail = () => {
       </section>
       <Comment />
     </div>
-    
   );
-}
+};
 
 export default BookDetail;
