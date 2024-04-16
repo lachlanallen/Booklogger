@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/NavBar";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import banner1 from "../assets/banner1.png";
@@ -9,43 +9,56 @@ import banner3 from "../assets/banner3.png";
 import defaultCover from "../assets/defaultCover.png";
 import "./Home.css";
 
+const fetchBooksBySubject = async (subject, setRecommendedBooks) => {
+  try {
+    const response = await fetch(
+      `https://openlibrary.org/subjects/${subject}.json`
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    const { works } = data;
+
+    if (works) {
+      const newBooks = works.slice(0, 6).map((bookSingle) => {
+        const { cover_id, first_publish_year, title, authors } = bookSingle;
+
+        return {
+          id: cover_id,
+          author: authors ? authors[0].name : "No Author",
+          cover_img: cover_id,
+          year: first_publish_year,
+          title: title,
+          subject: subject,
+        };
+      });
+      setRecommendedBooks(newBooks);
+    }
+  } catch (error) {
+    console.error("Fetch error: ", error);
+  }
+};
+
 const Home = () => {
   const [recommendedBooks, setRecommendedBooks] = useState([]);
-
-  const fetchBooksBySubject = async (subject) => {
-    try {
-      const response = await fetch(
-        `https://openlibrary.org/subjects/${subject}.json`
-      );
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      const { works } = data;
-
-      if (works) {
-        const newBooks = works.slice(0, 6).map((bookSingle) => {
-          const { cover_id, first_publish_year, title, authors } = bookSingle;
-
-          return {
-            id: cover_id,
-            author: authors ? authors[0].name : "No Author",
-            cover_img: cover_id,
-            year: first_publish_year,
-            title: title,
-            subject: subject,
-          };
-        });
-        setRecommendedBooks(newBooks);
-      }
-    } catch (error) {
-      console.error("Fetch error: ", error);
-    }
-  };
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const subjectFromUrl = searchParams.get("subject") || "fantasy";
+  const state = location.state;
 
   useEffect(() => {
-    fetchBooksBySubject("fantasy");
-  }, []);
+    let subject;
+    if (state && state.subject) {
+      subject = state.subject;
+    } else if (subjectFromUrl) {
+      subject = subjectFromUrl;
+    } else {
+      subject = "fantasy"; // Set subject to "fantasy" if undefined
+    }
+    fetchBooksBySubject(subject, setRecommendedBooks);
+  }, [location.state, subjectFromUrl]);
+  
 
   return (
     <main>

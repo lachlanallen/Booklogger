@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useLocation, Link } from "react-router-dom";
 import Loading from "./Loader";
 import NavBar from "./NavBar";
 import Comment from "./Comment";
@@ -10,9 +10,9 @@ const URL = "https://openlibrary.org/works/";
 
 const BookDetail = () => {
   const { id } = useParams();
+  const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [book, setBook] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -57,8 +57,8 @@ const BookDetail = () => {
       } catch (error) {
         console.error("Error fetching book", error);
         setBook(null);
+        setLoading(false);
       }
-      setLoading(false);
     }
     getBookDetails();
   }, [id]);
@@ -79,7 +79,7 @@ const BookDetail = () => {
           <button
             type="button"
             className="back-btn"
-            onClick={() => navigate("/Search")}
+            onClick={() => window.history.back()}
           >
             <i className="fas fa-arrow-left" />
             <p>Back</p>
@@ -110,6 +110,16 @@ const BookDetail = () => {
                     : book?.description}
                 </span>
               </div>
+              <Link
+                to={{
+                  pathname: "/",
+                  state: { subject: book.subject }
+                }}
+                className="home-link"
+              >
+                Home
+              </Link>
+
             </div>
           </div>
         </div>
